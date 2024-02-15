@@ -6,22 +6,13 @@ const User = require('../models/users');
 const { checkBody } = require('../modules/checkBody');
 const bcrypt = require('bcrypt');
 
-/* GET users listing. */
-// function checkBody(body, keys) {
-//   for (const key of keys) {
-//     if (!body[key]) return false;
-// 	}
-// 	return true;
-// }
-
 router.post("/signup", function (req, res) {
   const { firstname, username, password } = req.body;
-  const hash = bcrypt.hashSync('password', 10);
 
 	const result = checkBody(req.body, ["firstname", "username", "password"]);
 	if (!result) return res.json({ result: false, error: "Champs manquants ou vides" });
 
-	User.findOne({ username })
+	User.findOne({ username: username.toLowerCase() })
 		.then((data) => {
 			if (data) return res.json({ result: false, error: "Utilisateur déjà existant" });
 

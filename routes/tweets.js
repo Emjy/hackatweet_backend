@@ -27,10 +27,6 @@ router.delete('/tweets/:id', (req, res) => {
     });
 });
  
- 
-
-
-
 router.get('/allTweet', (req, res) => {
 
     Tweet.find()
@@ -72,4 +68,4 @@ router.post('/tweet', (req, res) => {
 });
 
 
-module.exports = router; 
+module.exports = router;
