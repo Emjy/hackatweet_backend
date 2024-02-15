@@ -27,11 +27,17 @@ router.delete('/tweets/:id', (req, res) => {
     });
 });
  
+ 
+
+
+
 router.get('/allTweet', (req, res) => {
 
     Tweet.find()
+        .populate('user')
         .then(tweets => {
             if (tweets) {
+                tweets = tweets.sort((a, b) => b.date - a.date)
                 res.json({ result: true, tweets })
             } else {
                 res.json({ result: true, message: 'no tweets' });
@@ -42,9 +48,8 @@ router.get('/allTweet', (req, res) => {
 
 router.post('/tweet', (req, res) => {
 
-
-    User.find({ username: req.body.username })
-        .then(user => {
+    User.findOne({ username: req.body.username })
+        .then(data => {
 
             const hashtags = extractHashtags(req.body.content);
 
@@ -55,7 +60,7 @@ router.post('/tweet', (req, res) => {
                 content: req.body.content,
                 hashtags,
                 likes: 0,
-                user: user._id
+                user: data._id
             });
 
             newTweet.save()
