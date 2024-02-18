@@ -27,7 +27,7 @@ router.post("/signup", function (req, res) {
 			newUser
 				.save()
 				.then(() => {
-					return res.json({ result: true, user: newUser.username, token: newUser.token });
+					return res.json({ result: true, user: newUser.username, token: newUser.token, profilPhoto: newUser.profilPhoto });
 				})
 				.catch((e) => {
 					console.error(e);
@@ -54,7 +54,7 @@ router.post("/signin", function (req, res) {
 			const pwdMatch = bcrypt.compareSync(password, data.password);
 			if (!pwdMatch) return res.json({ result: false, error: "Mot de passe incorrect" });
 
-			return res.json({ result: true, user: data.username, token: data.token  });
+			return res.json({ result: true, user: data.username, token: data.token, profilPhoto: data.profilPhoto });
 		})
 		.catch((e) => {
 			console.error(e);
